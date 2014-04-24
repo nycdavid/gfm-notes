@@ -1,10 +1,17 @@
+require 'github-markdown-preview'
+
 class Note
-  def initialize
+  attr_accessor :notebook_name, :name, :path, :preview
+
+  def initialize(notebook, note)
+    @notebook_name = notebook
+    @name = note
+    @path = "#{Dir.getwd}/md-notes/notebooks/#{@notebook_name}/#{@name}.md"
+    @preview = generate_preview
   end
 
-  def generate_preview(notebook, note)
-    note_path = "md-notes/notebooks/#{notebook}/#{note}.md"
-    preview = GithubMarkdownPreview::HtmlPreview.new(note_path)
+  def generate_preview
+    preview = GithubMarkdownPreview::HtmlPreview.new(@path)
     File.read(preview.preview_file)
   end
 end

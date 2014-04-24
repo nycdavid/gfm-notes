@@ -17,9 +17,10 @@ get '/notebooks/:notebook_name' do
 end
 
 get '/notebooks/:notebook_name/:note_name' do
-  @notebook = params[:notebook_name]
-  @note = params[:note_name]
-  @html = generate_preview(@notebook, @note)
+  @note = Note.new(params[:notebook_name], params[:note_name])
+  @notebook_name = @note.notebook_name
+  @note_name = @note.name
+  @html = @note.preview
   haml :show_note
 end
 
@@ -29,10 +30,4 @@ def get_notes(notebook)
     notes << n.split('/')[3].gsub(/.md/, '')
   end
   notes
-end
-
-def generate_preview(notebook, note)
-  note_path = "md-notes/notebooks/#{notebook}/#{note}.md"
-  preview = GithubMarkdownPreview::HtmlPreview.new(note_path)
-  File.read(preview.preview_file)
 end
