@@ -11,16 +11,14 @@ get '/' do
 end
 
 get '/notebooks/:notebook_name' do 
-  @notebook = params[:notebook_name]
-  @notes = get_notes(@notebook)
+  @notebook = Notebook.new(params[:notebook_name])
+  @notes = @notebook.notes
   haml :show
 end
 
 get '/notebooks/:notebook_name/:note_name' do
   @note = Note.new(params[:notebook_name], params[:note_name])
-  @notebook_name = @note.notebook_name
-  @note_name = @note.name
-  @html = @note.preview
+  @html = @note.generate_preview
   haml :show_note
 end
 

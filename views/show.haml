@@ -1,10 +1,10 @@
 !!!
 %html
   %head
-    %title= @notebook
+    %title= @notebook.name
   %body
-    %h1 Notes in #{@notebook}
+    %h1 Notes in #{@notebook.name}
     %ul#notes
-      - @notes.each do |note|
+      - @notebook.notes.each do |note|
         %li
-          %a{href: "/notebooks/#{@notebook}/#{note}"}= note
+          %a{href: "/notebooks/#{@notebook.name}/#{note.name}"}= note.name
