@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    %title GFM Notes
+  %body
+    %h1 Notebooks
+    #notebooks
+      %ul
+        - @notebooks.each do |notebook|
+          %li
+            %a{href: "/notebooks/#{notebook}"}= notebook
