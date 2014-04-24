@@ -1,8 +1,12 @@
 require 'sinatra'
 require 'github-markdown-preview'
 
+# Models
+require './models/notebook'
+require './models/note'
+
 get '/' do
-  @notebooks = get_notebooks
+  @notebooks = Notebook.get_all
   haml :index 
 end
 
@@ -17,15 +21,6 @@ get '/notebooks/:notebook_name/:note_name' do
   @note = params[:note_name]
   @html = generate_preview(@notebook, @note)
   haml :show_note
-end
-
-def get_notebooks
-  notebooks = []
-  Dir.glob('md-notes/**/*.md').each do |f|
-    name = f.split('/')[2]
-    notebooks << name unless notebooks.include? name
-  end
-  notebooks
 end
 
 def get_notes(notebook)
