@@ -21,11 +21,3 @@ get '/notebooks/:notebook_name/:note_name' do
   @html = @note.generate_preview
   haml :show_note
 end
-
-def get_notes(notebook)
-  notes = []
-  Dir.glob("md-notes/notebooks/#{notebook}/*.md").each do |n|
-    notes << n.split('/')[3].gsub(/.md/, '')
-  end
-  notes
-end
