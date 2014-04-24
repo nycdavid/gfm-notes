@@ -1,4 +1,5 @@
 require 'github-markdown-preview'
+require 'github/markup'
 
 class Note
   attr_accessor :notebook_name, :name, :path
@@ -10,7 +11,8 @@ class Note
   end
 
   def generate_preview
-    preview = GithubMarkdownPreview::HtmlPreview.new(@path)
-    File.read(preview.preview_file)
+    #preview = GithubMarkdownPreview::HtmlPreview.new(@path)
+    #File.read(preview.preview_file)
+    GitHub::Markup.render(@path, File.read(@path))
   end
 end
