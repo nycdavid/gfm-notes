@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra' #needs version
-gem 'github-markdown-preview'
-gem 'github-linguist', '~> 2.10.13'
-gem 'github-markup', '~> 1.2.1'
+gem 'sinatra', '~> 1.4.5'
+gem 'rouge', '~> 1.3.3'
+gem 'redcarpet', '~> 3.1.1'
 gem 'sass', '~> 3.3.5'
