@@ -1,5 +1,4 @@
-require 'github-markdown-preview'
-require 'github/markup'
+require './initializers/syntax'
 
 class Note
   attr_accessor :notebook_name, :name, :path
@@ -11,8 +10,7 @@ class Note
   end
 
   def generate_preview
-    #preview = GithubMarkdownPreview::HtmlPreview.new(@path)
-    #File.read(preview.preview_file)
-    GitHub::Markup.render(@path, File.read(@path))
+    markdown = Redcarpet::Markdown.new(HTML, fenced_code_blocks: true, tables: true)
+    markdown.render(File.read(@path))
   end
 end
