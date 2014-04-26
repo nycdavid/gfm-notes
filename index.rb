@@ -4,7 +4,19 @@ require 'sinatra/base'
 require './models/notebook'
 require './models/note'
 
+require './initializers/watcher'
+
 class GfmNotes < Sinatra::Base
+  configure do
+    enable :logging
+    use Rack::CommonLogger
+  end
+
+  before do
+    md_notes_path = "#{Dir.getwd}/md-notes/"
+    Dir.mkdir md_notes_path unless Dir.exists? md_notes_path
+  end
+
   get '/' do
     @notebooks = Notebook.get_all
     haml :index 

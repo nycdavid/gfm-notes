@@ -23,6 +23,4 @@ class Notebook
     end
     notebooks
   end
-
-  private
 end
