@@ -10,7 +10,7 @@ class Note
   end
 
   def generate_preview
-    markdown = Redcarpet::Markdown.new(HTML, fenced_code_blocks: true, tables: true)
+    markdown = Redcarpet::Markdown.new(HTML, fenced_code_blocks: true, tables: true, strikethrough: true)
     markdown.render(File.read(@path))
   end
 end
