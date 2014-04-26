@@ -139,3 +139,7 @@ pre code, pre tt {
   background-color: transparent;
   border: none;
 }
+
+li del {
+  opacity: 0.4;
+}
