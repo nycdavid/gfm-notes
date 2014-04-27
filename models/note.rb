@@ -5,7 +5,7 @@ class Note
 
   def initialize(notebook, note, path=nil)
     @notebook_name = notebook
-    @name = note
+    @name = note.gsub(/.md/, '')
     @path = path.nil? ? "#{Dir.getwd}/md-notes/notebooks/#{@notebook_name}/#{@name}.md" : path
   end
 
