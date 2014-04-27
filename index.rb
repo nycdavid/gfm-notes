@@ -4,8 +4,6 @@ require 'sinatra/base'
 require './models/notebook'
 require './models/note'
 
-require './initializers/watcher'
-
 class GfmNotes < Sinatra::Base
   configure do
     enable :logging
