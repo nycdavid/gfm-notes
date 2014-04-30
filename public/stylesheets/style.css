@@ -143,3 +143,7 @@ pre code, pre tt {
 li del {
   opacity: 0.4;
 }
+
+em {
+  font-weight: bold;
+}
