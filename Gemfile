@@ -8,6 +8,7 @@ gem 'sass', '~> 3.3.5'
 gem 'listen', '~> 2.7.2'
 gem 'faye-websocket', '~> 0.7.3'
 gem 'json', '~> 1.8.1'
+gem 'puma'
 
 group :development do
   gem 'shotgun'
