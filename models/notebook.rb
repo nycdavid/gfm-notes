@@ -1,5 +1,5 @@
 class Notebook
-  attr_accessor :name, :path, :notes
+  attr_accessor :name, :path, :notes, :error
 
   def initialize(notebook)
     @name = notebook
@@ -15,10 +15,23 @@ class Notebook
     notes
   end
 
+  def save
+    begin
+      Dir.mkdir @path
+    rescue Errno::EEXIST
+      self.error = 'already exists'
+    end
+    if Dir.exists?(@path) && self.error.nil? 
+      true
+    else
+      false
+    end
+  end
+
   def self.get_all
     notebooks = []
-    Dir.glob('md-notes/**/*.md').each do |f|
-      name = f.split('/')[2]
+    Dir.glob('md-notes/notebooks/**').each do |f|
+      name = f.split('/').last
       notebooks << name unless notebooks.include? name
     end
     notebooks
