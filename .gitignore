@@ -1,3 +1,4 @@
 md-notes/*
-*.swo
-*.swp
+*.sw*
+.sass-cache/*
+.bundle/*
