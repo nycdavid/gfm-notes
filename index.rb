@@ -20,6 +20,10 @@ class GfmNotes < Sinatra::Base
     haml :index 
   end
 
+  get '/notebooks' do
+    redirect to ('/')
+  end
+
   post '/notebooks' do # JSON route for AJAX calls
     @notebook = Notebook.new(params[:file_name]) # JSON route for AJAX calls
     if @notebook.save
