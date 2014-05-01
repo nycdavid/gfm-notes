@@ -22,6 +22,37 @@ $(document).ready(function() {
       completedTasks();
     }
   };
+
+  $('body').on('click', '.alert', function() {
+    $(this).remove();
+  });
+
+  $('body').on('click', 'button#save', function() {
+    var newNotebookName = {
+      title: $('#new-notebook-name').val(),
+      file_name: $('#new-notebook-name').val().replace(/\s+/g, '-')
+    }
+    $(this).addClass('disabled'); // Disable the save
+    $.ajax({
+      type: 'POST',
+      url: '/notebooks',
+      dataType: 'JSON',
+      data: newNotebookName,
+      statusCode: {
+        200: function(notebook) {
+          $('button#save').removeClass('disabled'); // Re-enable save button
+          $('#new-notebook-name').val(''); // Clear notebook name value
+          $('h4.modal-title').after("<div class='alert alert-success'>Notebook successfully created!</div>");
+          $('#notebooks ul').append('<li><a href="/notebooks/' + notebook.name + '">' + notebook.name + '</a></li>');
+        },
+        500: function(notebook) {
+          var data = JSON.parse(notebook.responseText);
+          $('h4.modal-title').after("<div class='alert alert-danger'>The notebook " + data.name + ' ' + data.message + ".</div>");
+          $('button#save').removeClass('disabled'); // Re-enable save button
+        }
+      }
+    });
+  });
 });
 
 function completedTasks() {
