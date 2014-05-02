@@ -33,6 +33,15 @@ class GfmNotes < Sinatra::Base
     end
   end
 
+  post '/notebooks/:notebook_name/notes' do 
+    @note = Note.new(params[:notebook_name], params[:file_name])
+    if @note.save
+      return [200, {name: @note.name, notebook: @note.notebook_name, path: @note.path}.to_json]
+    else
+      return [500, {name: @notebook.name, message: @notebook.error}.to_json]
+    end
+  end
+
   get '/notebooks/:notebook_name' do 
     @notebook = Notebook.new(params[:notebook_name])
     @notes = @notebook.notes
