@@ -4,7 +4,19 @@
     %title= @notebook.name
   %body
     %h1 Notes in #{@notebook.name}
+    %button.btn.btn-primary.btn-sm{:'data-toggle' => 'modal', :'data-target' => '#myModal', type: 'button'}
+      Add Note
     %ul#notes
       - @notebook.notes.each do |note|
         %li
           %a{href: "/notebooks/#{@notebook.name}/#{note.name}"}= note.name
+.modal.fade#myModal{tabindex: '-1', role: 'dialog', :'aria-labelledby' => 'add_note', :'aria-hidden' => true} 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h4.modal-title#add-note Add Note
+      .modal-body
+        %label Note Name
+        %input#new-note-name{:'data-notebook-name' => @notebook.name}
+      .modal-footer
+        %button.btn.btn-primary.btn-sm#save-note Save
