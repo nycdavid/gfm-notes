@@ -27,7 +27,7 @@ $(document).ready(function() {
     $(this).remove();
   });
 
-  $('body').on('click', 'button#save', function() {
+  $('body').on('click', 'button#save-notebook', function() {
     var newNotebookName = {
       title: $('#new-notebook-name').val(),
       file_name: $('#new-notebook-name').val().replace(/\s+/g, '-')
@@ -49,6 +49,34 @@ $(document).ready(function() {
           var data = JSON.parse(notebook.responseText);
           $('h4.modal-title').after("<div class='alert alert-danger'>The notebook " + data.name + ' ' + data.message + ".</div>");
           $('button#save').removeClass('disabled'); // Re-enable save button
+        }
+      }
+    });
+  });
+
+  $('body').on('click', 'button#save-note', function() {
+    var newNoteName = {
+      title: $('#new-note-name').val(),
+      file_name: $('#new-note-name').val().replace(/\s+/g, '-')
+    }
+    var notebookName = $('#new-note-name').data('notebookName');
+    $(this).addClass('disabled'); // Disable the save
+    $.ajax({
+      type: 'POST',
+      url: '/notebooks/' + notebookName + '/notes',
+      dataType: 'JSON',
+      data: newNoteName,
+      statusCode: {
+        200: function(note) {
+          $('button#save').removeClass('disabled'); // Re-enable save button
+          $('#new-note-name').val(''); // Clear notebook name value
+          $('h4.modal-title').after("<div class='alert alert-success'>Note successfully created!</div>");
+          $('#notes').append('<li><a href="/notebooks/' + note.notebook + '/' + note.name + '">' + note.name + '</a></li>');
+        },
+        500: function(note) {
+          var data = JSON.parse(note.responseText);
+          $('h4.modal-title').after("<div class='alert alert-danger'>The note " + data.name + ' ' + data.message + ".</div>");
+          $('button#save-note').removeClass('disabled'); // Re-enable save button
         }
       }
     });
