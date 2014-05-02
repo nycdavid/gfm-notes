@@ -13,4 +13,13 @@ class Note
     markdown = Redcarpet::Markdown.new(HTML, fenced_code_blocks: true, tables: true, strikethrough: true)
     markdown.render(File.read(@path))
   end
+
+  def save
+    begin
+      File.new @path, 'a+'
+    rescue Errno::EEXIST
+      self.error = 'already exists.'
+      false
+    end
+  end
 end
