@@ -2,17 +2,17 @@
 %button.btn.btn-primary.btn-sm{:'data-toggle' => 'modal', :'data-target' => '#myModal', type: 'button'}
   Add Notebook
 #notebooks
-  %ul
+  %ul.resource
     - @notebooks.each do |notebook|
       %li
         %a{href: "/notebooks/#{notebook}"}= notebook
-.modal.fade#myModal{tabindex: '-1', role: 'dialog', :'aria-labelledby' => 'add_notebook', :'aria-hidden' => true} 
+.modal.fade#myModal{tabindex: '-1', role: 'dialog', :'aria-labelledby' => 'add_notebook', :'aria-hidden' => true, :'data-url' => "/notebooks"} 
   .modal-dialog
     .modal-content
       .modal-header
         %h4.modal-title#add-notebook Add Notebook
       .modal-body
         %label Notebook Name
-        %input#new-notebook-name
+        %input#new-resource-name
       .modal-footer
-        %button.btn.btn-primary.btn-sm#save-notebook Save
+        %button.btn.btn-primary.btn-sm.save#notebook Save

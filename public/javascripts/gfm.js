@@ -27,56 +27,28 @@ $(document).ready(function() {
     $(this).remove();
   });
 
-  $('body').on('click', 'button#save-notebook', function() {
-    var newNotebookName = {
-      title: $('#new-notebook-name').val(),
-      file_name: $('#new-notebook-name').val().replace(/\s+/g, '-')
+  $('body').on('click', '.save', function() {
+    var nameObj = {
+      title: $('#new-resource-name').val(),
+      file_name: $('#new-resource-name').val().replace(/\s+/g, '-')
     }
-    $(this).addClass('disabled'); // Disable the save
+    $(this).addClass('disabled'); // Disable save button
     $.ajax({
       type: 'POST',
-      url: '/notebooks',
+      url: $('.modal').data('url'),
       dataType: 'JSON',
-      data: newNotebookName,
+      data: nameObj,
       statusCode: {
-        200: function(notebook) {
-          $('button#save').removeClass('disabled'); // Re-enable save button
-          $('#new-notebook-name').val(''); // Clear notebook name value
+        200: function(resource) {
+          $('.save').removeClass('disabled'); // Re-enable save button
+          $('#new-resource-name').val(''); // Clear notebook name value
           $('h4.modal-title').after("<div class='alert alert-success'>Notebook successfully created!</div>");
-          $('#notebooks ul').append('<li><a href="/notebooks/' + notebook.name + '">' + notebook.name + '</a></li>');
+          $('#notebooks ul').append('<li><a href="' + resource.url + '">' + resource.name + '</a></li>');
         },
-        500: function(notebook) {
-          var data = JSON.parse(notebook.responseText);
-          $('h4.modal-title').after("<div class='alert alert-danger'>The notebook " + data.name + ' ' + data.message + ".</div>");
-          $('button#save').removeClass('disabled'); // Re-enable save button
-        }
-      }
-    });
-  });
-
-  $('body').on('click', 'button#save-note', function() {
-    var newNoteName = {
-      title: $('#new-note-name').val(),
-      file_name: $('#new-note-name').val().replace(/\s+/g, '-')
-    }
-    var notebookName = $('#new-note-name').data('notebookName');
-    $(this).addClass('disabled'); // Disable the save
-    $.ajax({
-      type: 'POST',
-      url: '/notebooks/' + notebookName + '/notes',
-      dataType: 'JSON',
-      data: newNoteName,
-      statusCode: {
-        200: function(note) {
-          $('button#save').removeClass('disabled'); // Re-enable save button
-          $('#new-note-name').val(''); // Clear notebook name value
-          $('h4.modal-title').after("<div class='alert alert-success'>Note successfully created!</div>");
-          $('#notes').append('<li><a href="/notebooks/' + note.notebook + '/' + note.name + '">' + note.name + '</a></li>');
-        },
-        500: function(note) {
-          var data = JSON.parse(note.responseText);
-          $('h4.modal-title').after("<div class='alert alert-danger'>The note " + data.name + ' ' + data.message + ".</div>");
-          $('button#save-note').removeClass('disabled'); // Re-enable save button
+        500: function(resource) {
+          var data = JSON.parse(resource.responseText);
+          $('h4.modal-title').after("<div class='alert alert-danger'>The resource " + data.name + ' ' + data.message + ".</div>");
+          $('.save').removeClass('disabled'); // Re-enable save button
         }
       }
     });
